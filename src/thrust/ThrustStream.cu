@@ -115,8 +115,8 @@ template <class T>
 void ThrustStream<T>::add()
 {
   thrust::transform(
-      thrust::make_zip_iterator(thrust::make_tuple(impl->a.begin(), impl->b.begin())),
-      thrust::make_zip_iterator(thrust::make_tuple(impl->a.end(), impl->b.end())),
+      thrust::make_zip_iterator(impl->a.begin(), impl->b.begin()),
+      thrust::make_zip_iterator(impl->a.end(), impl->b.end()),
       impl->c.begin(),
       thrust::make_zip_function(
           [] __device__ __host__ (const T& ai, const T& bi){
@@ -131,8 +131,8 @@ void ThrustStream<T>::triad()
 {
   const T scalar = startScalar;
   thrust::transform(
-      thrust::make_zip_iterator(thrust::make_tuple(impl->b.begin(), impl->c.begin())),
-      thrust::make_zip_iterator(thrust::make_tuple(impl->b.end(), impl->c.end())),
+      thrust::make_zip_iterator(impl->b.begin(), impl->c.begin()),
+      thrust::make_zip_iterator(impl->b.end(), impl->c.end()),
       impl->a.begin(),
       thrust::make_zip_function(
           [=] __device__ __host__ (const T& bi, const T& ci){
@@ -147,8 +147,8 @@ void ThrustStream<T>::nstream()
 {
   const T scalar = startScalar;
   thrust::transform(
-      thrust::make_zip_iterator(thrust::make_tuple(impl->a.begin(), impl->b.begin(), impl->c.begin())),
-      thrust::make_zip_iterator(thrust::make_tuple(impl->a.end(), impl->b.end(), impl->c.end())),
+      thrust::make_zip_iterator(impl->a.begin(), impl->b.begin(), impl->c.begin()),
+      thrust::make_zip_iterator(impl->a.end(), impl->b.end(), impl->c.end()),
       impl->a.begin(),
       thrust::make_zip_function(
           [=] __device__ __host__ (const T& ai, const T& bi, const T& ci){

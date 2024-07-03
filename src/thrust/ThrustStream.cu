@@ -93,13 +93,13 @@ template <class T>
 void ThrustStream<T>::add()
 {
   thrust::transform(
-      thrust::make_zip_iterator(thrust::make_tuple(a.begin(), b.begin())),
-      thrust::make_zip_iterator(thrust::make_tuple(a.end(), b.end())),
+      a.begin(),
+      a.end(),
+      b.begin(),
       c.begin(),
-      thrust::make_zip_function(
-          [] __device__ __host__ (const T& ai, const T& bi){
-            return ai + bi;
-          })
+      [] __device__ __host__ (const T& ai, const T& bi){
+        return ai + bi;
+      }
   );
   synchronise();
 }
@@ -109,13 +109,13 @@ void ThrustStream<T>::triad()
 {
   const T scalar = startScalar;
   thrust::transform(
-      thrust::make_zip_iterator(thrust::make_tuple(b.begin(), c.begin())),
-      thrust::make_zip_iterator(thrust::make_tuple(b.end(), c.end())),
+      b.begin(),
+      b.end(),
+      c.begin(),
       a.begin(),
-      thrust::make_zip_function(
-          [=] __device__ __host__ (const T& bi, const T& ci){
-            return bi + scalar * ci;
-          })
+      [=] __device__ __host__ (const T& bi, const T& ci){
+        return bi + scalar * ci;
+      }
   );
   synchronise();
 }
